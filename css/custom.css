@@ -1,9 +1,3 @@
-/* =============================================
-   ACCESS BINARY — Electronics Portfolio CSS
-   Abin Antony | abinantony.github.io
-   ============================================= */
-
-/* ---------- Design Tokens ---------- */
 :root {
     /* Core palette — deep dark hacker aesthetic */
     --bg-0: #050810;
@@ -633,12 +627,13 @@ strong { color: var(--circuit-green); font-weight: 600; }
 }
 
 .avatar-ring {
-    width: 72px;
-    height: 72px;
+    width: 88px;
+    height: 88px;
     border-radius: 50%;
     background: var(--grad-brand);
     padding: 2px;
     flex-shrink: 0;
+    box-shadow: 0 0 18px rgba(0, 255, 136, 0.35);
 }
 
 .avatar-inner {
@@ -649,10 +644,15 @@ strong { color: var(--circuit-green); font-weight: 600; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-display);
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: var(--circuit-green);
+    overflow: hidden;
+}
+
+.avatar-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
 }
 
 .avatar-status {
