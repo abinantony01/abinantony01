@@ -13,7 +13,7 @@
 * 👨‍💻 All of my projects are available at
   👉 https://github.com/abinantony01
 * 📫 How to reach me
-  👉 [abinantony.dev@gmail.com](mailto:abinantony.dev@gmail.com)
+  👉 [abin@accessbinary.in](mailto:abin@accessbinary.in)
 * 📄 Know about my experiences
   👉 https://www.linkedin.com/in/abin-antony-
 * ⚡ Fun fact

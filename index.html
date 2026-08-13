@@ -12,7 +12,7 @@
     <meta property="og:url" content="https://accessbinary.in/" />
     <meta property="og:title" content="Access Binary | Abin Antony — R&amp;D Engineer" />
     <meta property="og:description" content="Hardware, embedded systems, and edge AI — designed to last." />
-    <meta property="og:image" content="https://accessbinary.in/assets/img/bg-masthead.jpg" />
+    <meta property="og:image" content="https://accessbinary.in/assets/img/abin-hero.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="assets/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,7 +28,6 @@
         <div class="loader-cap">warming the iron…</div>
     </div>
 
-    <canvas id="webgl-world" aria-hidden="true"></canvas>
     <div class="cur-dot" aria-hidden="true"></div>
     <div class="cur-ring" aria-hidden="true"></div>
 
@@ -46,18 +45,24 @@
 
     <div class="site" id="page-top">
         <section class="hero" id="hero">
+            <div class="hero-visual" aria-hidden="true">
+                <img src="assets/img/abin-hero.png" alt="" />
+            </div>
             <div class="hero-top">
                 <span>hobbyist · Chennai bench</span>
                 <span>still a rookie. that’s the point.</span>
             </div>
             <div class="hero-copy">
                 <h1>
-                    <span data-split>I make boards</span>
-                    <em data-split>until they work.</em>
+                    <span class="hero-line">I make boards</span>
+                    <em>until they work.</em>
                 </h1>
-                <p class="hero-hold">hold to blast &nbsp;·&nbsp; <b>like I lifted a pad</b></p>
+                <p class="hero-hold">hold the mark below &nbsp;·&nbsp; <b>like I lifted a pad</b></p>
             </div>
-            <div id="mark-hit" aria-label="Hold to blast the mark"></div>
+            <div class="hero-stage">
+                <canvas id="webgl-world" aria-hidden="true"></canvas>
+                <div id="mark-hit" aria-label="Hold to blast the mark"></div>
+            </div>
             <aside class="sticky s1" aria-hidden="true">flux on my fingers again</aside>
             <aside class="sticky s2" aria-hidden="true">ROS2: currently lost</aside>
             <div class="hero-bottom">
@@ -83,7 +88,7 @@
                     <p class="reveal">Hey — I’m <strong>Abin</strong>. I work as an R&amp;D engineer at <strong>Vi Microsystems, Chennai</strong>, which still feels a bit unreal. I like electronics. Like, actually like them. Schematics at 1am, JLCPCB tracking emails, that first LED.</p>
                     <p class="reveal">I’m not a studio. I’m a hobbyist who got a job doing the hobby. 2-layer boards, STM32, Raspberry Pi, Android apps that talk to my own hardware, robots that currently refuse to drive straight. TinyML because running a model on a chip is just… cool.</p>
                     <p class="meta-row reveal">From Idukki, Kerala. Learning in public. Please roast my layouts.</p>
-                    <img class="portrait reveal" src="assets/img/abin.jpg" alt="Abin Antony" />
+                    <img class="portrait reveal" src="assets/img/abin-portrait.png" alt="Abin Antony" />
                 </div>
             </div>
             <div class="wrap">
@@ -214,7 +219,7 @@
             <div class="wrap">
                 <p class="kicker reveal">ping me</p>
                 <h2 class="display reveal">If you’re also a nerd, <em>hi.</em></h2>
-                <a class="mail reveal" href="mailto:abinantony.dev@gmail.com">abinantony.dev@gmail.com</a>
+                <a class="mail reveal" href="mailto:abin@accessbinary.in">abin@accessbinary.in</a>
                 <form class="form reveal" id="contactForm" novalidate>
                     <div><label for="nameInput">Name</label><input id="nameInput" autocomplete="name" /></div>
                     <div><label for="emailInput">Email</label><input id="emailInput" type="email" autocomplete="email" /></div>

@@ -64,29 +64,7 @@
         });
     }
 
-    /* Blur-in characters for hero */
-    const heroLines = document.querySelectorAll('[data-split]');
-    heroLines.forEach((el) => {
-        const text = el.textContent;
-        el.textContent = '';
-        [...text].forEach((ch, i) => {
-            const s = document.createElement('span');
-            s.textContent = ch === ' ' ? '\u00A0' : ch;
-            s.style.display = 'inline-block';
-            s.style.filter = 'blur(12px)';
-            s.style.opacity = '0';
-            s.style.transition = `opacity 0.7s ease ${0.9 + i * 0.035}s, filter 0.7s ease ${0.9 + i * 0.035}s`;
-            el.appendChild(s);
-        });
-    });
-    requestAnimationFrame(() => {
-        document.querySelectorAll('[data-split] span').forEach((s) => {
-            s.style.opacity = '1';
-            s.style.filter = 'blur(0)';
-        });
-    });
-
-    /* Scroll reveal */
+    /* Hero line fade — keep words intact, no mid-word wrap */
     const reveals = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver((entries) => {
@@ -112,12 +90,17 @@
         });
     });
 
-    /* Form */
+    /* Form — opens mail to the live address */
     const form = document.getElementById('contactForm');
     form?.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = document.getElementById('emailInput');
         if (!email?.value.includes('@')) { email?.focus(); return; }
+        const name = document.getElementById('nameInput')?.value || '';
+        const subject = document.getElementById('subjectInput')?.value || 'hi from the site';
+        const message = document.getElementById('messageInput')?.value || '';
+        const body = encodeURIComponent(`From: ${name} <${email.value}>\n\n${message}`);
+        window.location.href = `mailto:abin@accessbinary.in?subject=${encodeURIComponent(subject)}&body=${body}`;
         document.getElementById('formSuccess')?.classList.add('show');
         form.reset();
     });

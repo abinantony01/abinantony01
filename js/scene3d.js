@@ -23,14 +23,27 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
         return;
     }
     renderer.setPixelRatio(Math.min(devicePixelRatio, 1.6));
-    renderer.setSize(innerWidth, innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.05;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.setClearColor(0x000000, 0);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(32, innerWidth / innerHeight, 0.1, 40);
-    camera.position.set(0, 0.15, 8.2);
+    const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 40);
+    camera.position.set(0, 0.08, 6.6);
+
+    function sizeToStage() {
+        const host = canvas.parentElement;
+        const w = Math.max(1, host?.clientWidth || innerWidth);
+        const h = Math.max(1, host?.clientHeight || innerHeight);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h, false);
+    }
+    sizeToStage();
+    if (typeof ResizeObserver !== 'undefined' && canvas.parentElement) {
+        new ResizeObserver(sizeToStage).observe(canvas.parentElement);
+    }
 
     scene.add(new THREE.AmbientLight(0x2a2622, 0.55));
     const key = new THREE.DirectionalLight(0xffe6c4, 1.85);
@@ -55,19 +68,16 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
         '1000001',
         '1000001',
     ];
-    const geo = new THREE.BoxGeometry(0.34, 0.07, 0.34);
-    const mats = [
-        new THREE.MeshStandardMaterial({ color: 0x1a6b3c, metalness: 0.25, roughness: 0.55, emissive: 0x062214, emissiveIntensity: 0.25 }),
-        new THREE.MeshStandardMaterial({ color: 0xb87333, metalness: 0.85, roughness: 0.28 }),
-        new THREE.MeshStandardMaterial({ color: 0xe8e0d0, metalness: 0.15, roughness: 0.5 }),
-    ];
+    const geo = new THREE.BoxGeometry(0.38, 0.08, 0.38);
+    const fr4 = new THREE.MeshStandardMaterial({ color: 0x1a6b3c, metalness: 0.22, roughness: 0.52, emissive: 0x062214, emissiveIntensity: 0.18 });
+    const copper = new THREE.MeshStandardMaterial({ color: 0xb87333, metalness: 0.82, roughness: 0.28 });
     const panels = [];
     A.forEach((row, r) => {
         [...row].forEach((ch, c) => {
             if (ch !== '1') return;
-            const mesh = new THREE.Mesh(geo, mats[(r + c) % mats.length]);
-            const x = (c - 3) * 0.42;
-            const y = (3 - r) * 0.42;
+            const mesh = new THREE.Mesh(geo, r === 4 ? copper : fr4);
+            const x = (c - 3) * 0.46;
+            const y = (3 - r) * 0.46;
             mesh.position.set(x, y, 0);
             const dir = new THREE.Vector3(x, y, (Math.random() - 0.5) * 2).normalize();
             mesh.userData = {
@@ -134,19 +144,13 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
         setCharge(false);
     });
     window.addEventListener('pointermove', (e) => {
-        st.target.x = (e.clientX / innerWidth) * 2 - 1;
-        st.target.y = -(e.clientY / innerHeight) * 2 + 1;
+        const box = (hit || canvas).getBoundingClientRect();
+        const cx = box.left + box.width / 2;
+        const cy = box.top + box.height / 2;
+        st.target.x = Math.max(-1, Math.min(1, (e.clientX - cx) / Math.max(1, box.width / 2)));
+        st.target.y = Math.max(-1, Math.min(1, -(e.clientY - cy) / Math.max(1, box.height / 2)));
     }, { passive: true });
-    window.addEventListener('scroll', () => {
-        const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-        st.scroll = Math.min(1, scrollY / max);
-    }, { passive: true });
-
-    window.addEventListener('resize', () => {
-        camera.aspect = innerWidth / innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(innerWidth, innerHeight);
-    }, { passive: true });
+    window.addEventListener('resize', sizeToStage, { passive: true });
 
     window.AB3D = st;
 
@@ -168,8 +172,7 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
             st.hold += (0 - st.hold) * 0.08;
         }
 
-        const scrollExpl = Math.min(1, st.scroll * 1.15);
-        st.explode += (Math.max(st.hold, scrollExpl * 0.55, st.hover * 0.06) - st.explode) * 0.08;
+        st.explode += (Math.max(st.hold, st.hover * 0.08) - st.explode) * 0.08;
 
         st.mouse.x += (st.target.x - st.mouse.x) * 0.06;
         st.mouse.y += (st.target.y - st.mouse.y) * 0.06;
