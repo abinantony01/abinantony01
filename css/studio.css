@@ -391,7 +391,7 @@ h2.display em { font-family: var(--font-serif); font-style: italic; font-weight:
 .practice p { color: var(--muted); line-height: 1.65; font-size: 0.95rem; }
 
 /* Journal */
-.tabs { display: flex; gap: 1.5rem; margin: 2.5rem 0 1.5rem; }
+.tabs { display: flex; gap: 1.5rem; margin: 2.5rem 0 1.5rem; flex-wrap: wrap; }
 .tabs button {
     background: none;
     border: none;
@@ -471,19 +471,91 @@ footer {
 .sticky {
     position: absolute;
     font-family: var(--font-hand);
-    font-size: 1.15rem;
+    font-size: 1.12rem;
     color: #2a2418;
     background: #f3d56b;
     padding: 0.75rem 0.9rem;
-    width: 140px;
+    width: 158px;
     box-shadow: 2px 6px 14px rgba(0,0,0,0.35);
     transform: rotate(-6deg);
     z-index: 3;
     pointer-events: none;
     line-height: 1.2;
 }
-.sticky.s1 { left: 2vw; top: auto; bottom: 28%; background: #f3d56b; }
-.sticky.s2 { right: 2vw; bottom: 28%; top: auto; background: #f2b8c6; transform: rotate(5deg); }
+.work-plate {
+    width: 100%;
+    aspect-ratio: 16/10;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(196, 122, 58, 0.12), transparent 55%),
+        var(--bg-2);
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    letter-spacing: 0.18em;
+    color: var(--paper);
+    position: relative;
+}
+.work-plate span {
+    position: absolute;
+    left: 1.1rem;
+    top: 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+}
+
+.lib-band {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-2);
+}
+.lib-copy {
+    color: var(--muted);
+    font-size: 1.12rem;
+    line-height: 1.7;
+    max-width: 52ch;
+    margin: 1.4rem 0 1.6rem;
+}
+.lib-copy strong { color: var(--paper); font-weight: 500; }
+
+.quote-band {
+    padding: 5rem 0;
+    border-top: 1px solid var(--line);
+}
+.quote-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+}
+.quote-band blockquote p {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+.quote-band cite {
+    display: block;
+    margin-top: 1rem;
+    font-style: normal;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.sticky.s1 { left: 3vw; top: 22%; bottom: auto; background: #f3d56b; width: 168px; }
+.sticky.s2 { right: 3.5vw; top: 24%; bottom: auto; background: #f2b8c6; transform: rotate(5deg); }
+.sticky.s3 { left: 5vw; bottom: 14%; top: auto; background: #c8e4c4; transform: rotate(4deg); width: 132px; }
+.sticky.s4 { right: 6vw; bottom: 12%; top: auto; background: #efe6d4; transform: rotate(-4deg); width: 168px; }
+.sticky.s5 { left: auto; right: 4vw; top: 48%; bottom: auto; background: #c9d4e8; transform: rotate(-7deg); width: 148px; }
+.sticky.s6 { left: 3vw; top: 48%; bottom: auto; background: #f5d0b0; transform: rotate(7deg); width: 138px; }
+
+@media (max-width: 1200px) {
+    .sticky.s5, .sticky.s6 { display: none; }
+}
 
 @media (max-width: 900px) {
     .sticky { display: none; }
@@ -498,7 +570,7 @@ footer {
         bottom: 12%;
         opacity: 0.7;
     }
-    .about-grid, .work-item, .pi-block, .practice, .facts { grid-template-columns: 1fr; }
+    .about-grid, .work-item, .pi-block, .practice, .facts, .quote-grid { grid-template-columns: 1fr; }
     .row { grid-template-columns: 1fr; }
     .nav-links { display: none; }
     .nav-links.open {

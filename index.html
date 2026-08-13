@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Abin Antony — hobbyist, R&amp;D rookie, boards on the desk</title>
-    <meta name="description" content="Abin Antony. R&D engineer at Vi Microsystems, Chennai — and a hobbyist who designs PCBs, breaks robots, and learns in public. Raspberry Pi approved hardware." />
+    <title>Abin Antony — R&amp;D Engineer, hardware &amp; edge systems</title>
+    <meta name="description" content="Abin Antony. R&D engineer at Vi Microsystems, Chennai. PCB design, Single Pair Ethernet, analog front ends, edge AI, and published Arduino libraries." />
     <meta name="author" content="Abin Antony" />
     <link rel="canonical" href="https://accessbinary.in/" />
     <meta property="og:type" content="website" />
@@ -25,7 +25,7 @@
 <body>
     <div id="loader">
         <div class="loader-num" id="loader-num">00</div>
-        <div class="loader-cap">warming the iron…</div>
+        <div class="loader-cap">bringing up the board…</div>
     </div>
 
     <div class="cur-dot" aria-hidden="true"></div>
@@ -37,10 +37,11 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="#about">About</a></li>
             <li><a href="#work">Work</a></li>
+            <li><a href="#library">Library</a></li>
             <li><a href="#practice">Practice</a></li>
-            <li><a href="#journal">Journal</a></li>
+            <li><a href="#journal">Notes</a></li>
         </ul>
-        <a class="nav-talk" href="#contact">say hi</a>
+        <a class="nav-talk" href="#contact">Contact</a>
     </header>
 
     <div class="site" id="page-top">
@@ -62,101 +63,141 @@
                 </div>
             </div>
             <div class="hero-top">
-                <span>hobbyist · Chennai bench</span>
-                <span>still a rookie. that’s the point.</span>
+                <span>R&amp;D · Vi Microsystems · Chennai</span>
+                <span>hardware · analog · edge AI</span>
             </div>
             <div class="hero-copy">
                 <h1>
                     <span class="hero-line">I make boards</span>
                     <em>until they work.</em>
                 </h1>
-                <p class="hero-hold">RP2350 · STM32 · still learning ROS</p>
+                <p class="hero-hold">10BASE-T1L · analog AFE · iCE40 · SPE</p>
             </div>
-            <aside class="sticky s1" aria-hidden="true">flux on my fingers again</aside>
-            <aside class="sticky s2" aria-hidden="true">ROS2: currently lost</aside>
+            <aside class="sticky s1" aria-hidden="true">the op-amp isn’t the circuit. the feedback is.</aside>
+            <aside class="sticky s2" aria-hidden="true">iCE40 this weekend</aside>
+            <aside class="sticky s3" aria-hidden="true">don’t skip the AFE</aside>
+            <aside class="sticky s4" aria-hidden="true">parasitics don’t care about your schematic</aside>
+            <aside class="sticky s5" aria-hidden="true">magic smoke. MOSFET edition.</aside>
+            <aside class="sticky s6" aria-hidden="true">if it rings, snub it</aside>
             <div class="hero-bottom">
-                <a class="hero-cta" href="#work">the boards I didn’t throw out</a>
-                <p class="hero-note">R&amp;D by day at Vi Microsystems. Hobbyist the rest of the time. Idukki kid, Chennai iron.</p>
+                <a class="hero-cta" href="#work">selected work</a>
+                <p class="hero-note">R&amp;D engineer at Vi Microsystems. Boards, sensors, and the analog that makes them honest.</p>
             </div>
         </section>
 
         <div class="marquee" aria-hidden="true">
             <div class="marquee-track">
-                <span>solder smoke</span><span>JLCPCB lottery</span><span>RP2350</span><span>still learning ROS</span><span>TinyML</span><span>broke it, fixed it</span><span>Kotlin + BLE</span><span>Pi said yes??</span>
-                <span>solder smoke</span><span>JLCPCB lottery</span><span>RP2350</span><span>still learning ROS</span><span>TinyML</span><span>broke it, fixed it</span><span>Kotlin + BLE</span><span>Pi said yes??</span>
+                <span>10BASE-T1L</span><span>ADIN1110</span><span>VEML6030</span><span>iCE40</span><span>analog AFE</span><span>snubber</span><span>PyQt</span><span>parasitics</span>
+                <span>10BASE-T1L</span><span>ADIN1110</span><span>VEML6030</span><span>iCE40</span><span>analog AFE</span><span>snubber</span><span>PyQt</span><span>parasitics</span>
             </div>
         </div>
 
         <section id="about">
             <div class="wrap about-grid">
                 <div>
-                    <p class="kicker reveal">who even is this</p>
-                    <h2 class="display reveal">A rookie with a <em>hot iron</em> and too many unfinished boards.</h2>
+                    <p class="kicker reveal">profile</p>
+                    <h2 class="display reveal">R&amp;D engineer. <em>Hardware first.</em> Analog when it matters.</h2>
                 </div>
                 <div>
-                    <p class="reveal">Hey — I’m <strong>Abin</strong>. I work as an R&amp;D engineer at <strong>Vi Microsystems, Chennai</strong>, which still feels a bit unreal. I like electronics. Like, actually like them. Schematics at 1am, JLCPCB tracking emails, that first LED.</p>
-                    <p class="reveal">I’m not a studio. I’m a hobbyist who got a job doing the hobby. 2-layer boards, STM32, Raspberry Pi, Android apps that talk to my own hardware, robots that currently refuse to drive straight. TinyML because running a model on a chip is just… cool.</p>
-                    <p class="meta-row reveal">From Idukki, Kerala. Learning in public. Please roast my layouts.</p>
+                    <p class="reveal">I’m <strong>Abin Antony</strong>, an R&amp;D engineer at <strong>Vi Microsystems, Chennai</strong>. I design boards, bring them up, and stay with the analog until the numbers are real — not just until the LED turns on.</p>
+                    <p class="reveal">Current desk: Single Pair Ethernet (10BASE-T1S / 10BASE-T1L), analog front ends for instruments, and Lattice iCE40 FPGA work on the weekends. Firmware that other people can install — <strong>ViSPE ADIN1110</strong> is in the Arduino Library Manager.</p>
+                    <p class="meta-row reveal">From Idukki, Kerala. Based in Chennai. Schematic → layout → firmware → the bit that fails on the bench.</p>
                     <img class="portrait reveal" src="assets/img/abin.jpg" alt="Abin Antony" />
                 </div>
             </div>
             <div class="wrap">
                 <div class="facts">
-                    <div class="fact reveal"><b>1</b><span>time Pi actually approved my board (still buzzing)</span></div>
-                    <div class="fact reveal"><b>10+</b><span>PCBs. some worked. some are art now.</span></div>
-                    <div class="fact reveal"><b>7+</b><span>projects open on the desk at once. oops.</span></div>
-                    <div class="fact reveal"><b>∞</b><span>times I probed the wrong pin</span></div>
+                    <div class="fact reveal"><b>Pi</b><span>RP2350 board, Raspberry Pi Foundation approved</span></div>
+                    <div class="fact reveal"><b>Lib</b><span>ViSPE ADIN1110 on Arduino Library Manager</span></div>
+                    <div class="fact reveal"><b>SPE</b><span>10BASE-T1S / T1L, ADIN1110 + Pico</span></div>
+                    <div class="fact reveal"><b>10+</b><span>PCBs designed, brought up, and revised</span></div>
                 </div>
             </div>
         </section>
 
         <section id="work">
             <div class="wrap">
-                <p class="kicker reveal">on the desk</p>
-                <h2 class="display reveal">Stuff I built that <em>didn’t catch fire.</em></h2>
+                <p class="kicker reveal">selected work</p>
+                <h2 class="display reveal">Boards, sensors, and the <em>stack around them.</em></h2>
             </div>
             <div class="wrap">
                 <article class="work-item reveal">
                     <img src="assets/img/rp2350.png" alt="RP2350 Indoor AI Environment Board" />
                     <div>
-                        <span class="idx">01 — I still can’t believe this</span>
+                        <span class="idx">01 — certified</span>
                         <h3>RP2350 Indoor AI Environment Board</h3>
-                        <p>Raspberry Pi Foundation looked at my board and said yes. Indoor air, humidity, CO₂, TinyML on the Pico 2 itself. I kept refreshing the listing like a maniac.</p>
+                        <p>Indoor air quality, humidity, CO₂, and on-device TinyML on the Pico 2. Tested and approved by the Raspberry Pi Foundation. The board that proved the rest of the stack was worth shipping.</p>
                         <div class="tags"><span>RP2350</span><span>TinyML</span><span>I2C</span><span>Approved</span></div>
                     </div>
                 </article>
                 <article class="work-item reveal">
-                    <img src="assets/img/fg.jpg" alt="3 MHz Function Generator" />
+                    <div class="work-plate"><span>02</span>SPE</div>
                     <div>
-                        <span class="idx">02 — office toy that became a tool</span>
-                        <h3>3 MHz Function Generator</h3>
-                        <p>Wanted a cheap lab instrument. Ended up laying out AD9833 + STM32. Sine / square / triangle. Now I’m greedily chasing 10 MHz and it is humbling me.</p>
-                        <div class="tags"><span>AD9833</span><span>STM32</span><span>SPI</span><span>2-layer</span></div>
+                        <span class="idx">02 — in progress</span>
+                        <h3>Single Pair Ethernet · 10BASE-T1S / T1L</h3>
+                        <p>Industrial Ethernet on one twisted pair. Short-reach 10BASE-T1S and long-reach 10BASE-T1L (IEEE 802.3cg) through Analog Devices ADIN1110, hosted on Raspberry Pi Pico. Same cable plant, 10 Mbit/s, up to a kilometre when the analog is right.</p>
+                        <div class="tags"><span>10BASE-T1L</span><span>10BASE-T1S</span><span>ADIN1110</span><span>Pico</span></div>
+                    </div>
+                </article>
+                <article class="work-item reveal">
+                    <img src="assets/img/fg.jpg" alt="Function generator analog front end" />
+                    <div>
+                        <span class="idx">03 — analog</span>
+                        <h3>Function Generator &amp; RF-grade analog front end</h3>
+                        <p>AD9833 + STM32 for sine, square, and triangle — then the part that actually matters: the analog front end. Output drive, filtering, and layout for RF-grade instruments. Analog is tough to master. That is the work.</p>
+                        <div class="tags"><span>AD9833</span><span>AFE</span><span>STM32</span><span>RF</span></div>
+                    </div>
+                </article>
+                <article class="work-item reveal">
+                    <div class="work-plate"><span>04</span>VIB</div>
+                    <div>
+                        <span class="idx">04 — instrument + software</span>
+                        <h3>Vibration monitoring device</h3>
+                        <p>Condition-monitoring hardware with a desktop application in <strong>PyQt</strong>. Capture, live traces, and the unglamorous work of making a sensor honest enough to trend. Built as a device, not a demo sketch.</p>
+                        <div class="tags"><span>Vibration</span><span>PyQt</span><span>DAQ</span><span>Python</span></div>
+                    </div>
+                </article>
+                <article class="work-item reveal">
+                    <div class="work-plate"><span>05</span>ALS</div>
+                    <div>
+                        <span class="idx">05 — module</span>
+                        <h3>VEML6030 ambient light sensor</h3>
+                        <p>A compact ambient-light module around Vishay’s VEML6030. High-resolution lux over I²C, brought up as a board you can drop onto a product instead of a breakout you apologize for.</p>
+                        <div class="tags"><span>VEML6030</span><span>I2C</span><span>Module</span><span>2-layer</span></div>
                     </div>
                 </article>
                 <article class="work-item reveal">
                     <img src="assets/img/evdashboard.jpeg" alt="Embedded EV Kit" />
                     <div>
-                        <span class="idx">03 — EV kit, intern energy</span>
-                        <h3>Embedded EV Kit with Dashboard</h3>
-                        <p>CAN, motor speed, battery voltage, a chunky LCD. Built at work so we could poke at EV ideas without waiting for a car.</p>
+                        <span class="idx">06 — systems</span>
+                        <h3>Embedded EV kit with dashboard</h3>
+                        <p>CAN, motor speed, pack voltage, LCD. A bench kit so EV control ideas can be poked without waiting for a vehicle. Firmware, harness, and the dashboard in one loop.</p>
                         <div class="tags"><span>CAN</span><span>STM32</span><span>LCD</span><span>EV</span></div>
                     </div>
                 </article>
             </div>
         </section>
 
+        <section id="library" class="lib-band">
+            <div class="wrap lib-inner">
+                <p class="kicker reveal">open source</p>
+                <h2 class="display reveal">ViSPE ADIN1110 is on the <em>Arduino Library Manager.</em></h2>
+                <p class="reveal lib-copy">Arduino driver for Analog Devices ADIN1110 — 10BASE-T1L Single Pair Ethernet MAC-PHY — with Raspberry Pi Pico W support. Search <strong>ViSPE ADIN1110</strong> in Library Manager, or clone the repo.</p>
+                <p class="reveal"><a class="hero-cta" href="https://github.com/abinantony01/ViSPE-ADIN1110" target="_blank" rel="noopener">github.com/abinantony01/ViSPE-ADIN1110</a></p>
+            </div>
+        </section>
+
         <section id="raspberrypi">
             <div class="wrap pi-block">
                 <div>
-                    <p class="kicker reveal">wait, Pi said yes</p>
-                    <h2 class="display reveal">They put my board on the <em>list.</em></h2>
-                    <p class="reveal" style="color:var(--muted);margin-top:1.2rem;line-height:1.7;max-width:42ch;">I submitted the RP2350 indoor AI board like a nervous hobbyist. It got tested, verified, approved. I am still a rookie. That happened anyway.</p>
-                    <p class="reveal" style="margin-top:1.4rem;"><a class="hero-cta" href="https://www.raspberrypi.com/products/" target="_blank" rel="noopener">View on raspberrypi.com</a></p>
+                    <p class="kicker reveal">Raspberry Pi</p>
+                    <h2 class="display reveal">Approved hardware. <em>On the list.</em></h2>
+                    <p class="reveal" style="color:var(--muted);margin-top:1.2rem;line-height:1.7;max-width:42ch;">The RP2350 indoor AI board was submitted, tested, and verified by the Raspberry Pi Foundation. That is the bar I hold the rest of the work to.</p>
+                    <p class="reveal" style="margin-top:1.4rem;"><a class="hero-cta" href="https://www.raspberrypi.com/products/" target="_blank" rel="noopener">raspberrypi.com</a></p>
                 </div>
                 <ul class="reveal">
-                    <li>RP2350 (Pico 2 chip)</li>
-                    <li>On-device TinyML inference</li>
+                    <li>RP2350 (Pico 2)</li>
+                    <li>On-device TinyML</li>
                     <li>Temp, humidity, air quality, CO₂</li>
                     <li>No cloud required</li>
                     <li>MicroPython + C SDK</li>
@@ -164,34 +205,51 @@
             </div>
         </section>
 
+        <section class="quote-band" aria-label="notes">
+            <div class="wrap quote-grid">
+                <blockquote class="reveal">
+                    <p>Analog is tough to master.</p>
+                    <cite>Every AFE, every layout that looked fine in CAD</cite>
+                </blockquote>
+                <blockquote class="reveal">
+                    <p>A soldering iron is my Spice.</p>
+                    <cite>Bob Pease</cite>
+                </blockquote>
+                <blockquote class="reveal">
+                    <p>Vgs(max) is not a suggestion.</p>
+                    <cite>magic smoke. MOSFET edition.</cite>
+                </blockquote>
+            </div>
+        </section>
+
         <section id="practice">
             <div class="wrap">
-                <p class="kicker reveal">rabbit holes</p>
-                <h2 class="display reveal">What I’m <em>messing with</em> after hours.</h2>
+                <p class="kicker reveal">practice</p>
+                <h2 class="display reveal">What is on the <em>bench</em> after hours.</h2>
                 <div class="practice">
                     <article class="reveal">
-                        <h3>Vision</h3>
-                        <p>YOLOv5-lite on a Pi 4, camera taped to a robot, ~12 FPS if I’m lucky. Perception is hard. I like it anyway.</p>
+                        <h3>Lattice iCE40 FPGA</h3>
+                        <p>Hobby work on Lattice Semiconductor iCE40 — HDL, timing, and the patience of fitting a design into a small fabric. Weekends, not a product line. Yet.</p>
                     </article>
                     <article class="reveal">
-                        <h3>STM32N6 AI board</h3>
-                        <p>STM32N6 has an NPU and I want on-chip pollutant guesses. Datasheet is thick. Progress is not linear.</p>
+                        <h3>Analog front ends</h3>
+                        <p>RF-grade signal chains for instruments: drive, filter, layout, return path. Digital is negotiable. Analog is not. Still the hardest part of the function generator.</p>
+                    </article>
+                    <article class="reveal">
+                        <h3>Single Pair Ethernet</h3>
+                        <p>10BASE-T1S and 10BASE-T1L on ADIN1110. PHY analog, SPI MAC, and the cable that has to survive a factory floor.</p>
+                    </article>
+                    <article class="reveal">
+                        <h3>Edge inference</h3>
+                        <p>Raspberry Pi with a Hailo accelerator when the CPU is not enough. Quantise, pipeline, measure.</p>
+                    </article>
+                    <article class="reveal">
+                        <h3>STM32N6</h3>
+                        <p>On-chip NPU for environment sensing. Datasheet-first, then silicon. Progress is the reference manual, then a board.</p>
                     </article>
                     <article class="reveal">
                         <h3>Android × silicon</h3>
-                        <p>Kotlin talking to my STM32 over BLE because I wanted a screen I didn’t have to solder. MVVM, live waveforms, occasional disconnect rage.</p>
-                    </article>
-                    <article class="reveal">
-                        <h3>ROS2 navigation</h3>
-                        <p>Nav2, diff-drive, my own motor board. It spins in circles more than I’d like. Tutorial tab permanently open.</p>
-                    </article>
-                    <article class="reveal">
-                        <h3>Layout</h3>
-                        <p>EasyEDA, KiCad, 2 layers, JLCPCB. I still get silkscreen upside down sometimes. Bring-up is my favourite part.</p>
-                    </article>
-                    <article class="reveal">
-                        <h3>Languages</h3>
-                        <p>C when the MCU demands it. Python when I’m lazy. Kotlin on the phone. I2C until the pull-ups are wrong.</p>
+                        <p>Kotlin talking to STM32 over BLE — MVVM, live waveforms, a screen I did not have to solder.</p>
                     </article>
                 </div>
             </div>
@@ -199,45 +257,55 @@
 
         <section id="journal">
             <div class="wrap">
-                <p class="kicker reveal">lab notebook</p>
-                <h2 class="display reveal">Open tabs, <em>unfinished</em> gerbers.</h2>
+                <p class="kicker reveal">notes</p>
+                <h2 class="display reveal">Open work, <em>closed loops.</em></h2>
                 <div class="tabs">
-                    <button class="on" data-tab="ongoing" type="button">Ongoing</button>
+                    <button class="on" data-tab="ongoing" type="button">Now</button>
+                    <button data-tab="research" type="button">Research</button>
                     <button data-tab="college" type="button">College</button>
-                    <button data-tab="completed" type="button">Somehow done</button>
+                    <button data-tab="completed" type="button">Shipped</button>
                 </div>
                 <div class="panel on" id="tab-ongoing">
-                    <div class="row reveal"><span class="when">Apr 2026</span><div><h4>10 MHz Function Generator</h4><p>The 3 MHz one worked so of course I said “what if 10.” Analog stage is currently teaching me humility.</p></div></div>
-                    <div class="row reveal"><span class="when">Mar 2026</span><div><h4>STM32N6 environment board</h4><p>NPU + gas sensors. Reading the reference manual like it’s a novel.</p></div></div>
-                    <div class="row reveal"><span class="when">Feb 2026</span><div><h4>ROS2 diff-drive bot</h4><p>Custom driver board, encoders, Nav2. It does a little dance. Not on purpose.</p></div></div>
+                    <div class="row reveal"><span class="when">Now</span><div><h4>10BASE-T1S / T1L Single Pair Ethernet</h4><p>ADIN1110 + Pico. Short-reach and long-reach SPE. Analog of the PHY, then the frames.</p></div></div>
+                    <div class="row reveal"><span class="when">Now</span><div><h4>RF-grade analog front end</h4><p>Function generator output stage. Filtering, drive, layout. Analog is the bottleneck on purpose.</p></div></div>
+                    <div class="row reveal"><span class="when">Hobby</span><div><h4>Lattice iCE40 FPGA</h4><p>HDL on iCE40 as a weekend practice — fabric, timing, and tools that do not forgive guesswork.</p></div></div>
+                    <div class="row reveal"><span class="when">Now</span><div><h4>10 MHz function generator</h4><p>The 3 MHz instrument works. The analog stage for 10 MHz is the current teacher.</p></div></div>
+                </div>
+                <div class="panel" id="tab-research">
+                    <div class="row"><span class="when">Notes</span><div><h4>Medical model training</h4><p>Federated setup with an Android client, ESP32-S3, encryption, AWS. Quiet work. The data stays put.</p></div></div>
+                    <div class="row"><span class="when">Notes</span><div><h4>Hailo on Raspberry Pi</h4><p>Accelerated inference when a Pi CPU is not enough.</p></div></div>
+                    <div class="row"><span class="when">Lib</span><div><h4>ViSPE ADIN1110</h4><p>Arduino Library Manager. Pico W + ADIN1110 10BASE-T1L MAC-PHY.</p></div></div>
                 </div>
                 <div class="panel" id="tab-college">
                     <div class="row"><span class="when">Award</span><div><h4>Smart Irrigation System</h4><p>Arduino, capacitive soil sensor, Kotlin app over BLE. Best Project Award.</p></div></div>
-                    <div class="row"><span class="when">Demo</span><div><h4>Vision-Based Attendance</h4><p>Face recognition on Raspberry Pi 4, local CSV log, live HDMI preview.</p></div></div>
-                    <div class="row"><span class="when">Fest</span><div><h4>Mini EV Prototype with BMS</h4><p>Final year — BLDC, BMS, LCD dashboard, EasyEDA PCB. Technical fest finalist.</p></div></div>
+                    <div class="row"><span class="when">Demo</span><div><h4>Vision-based attendance</h4><p>Face recognition on Raspberry Pi 4, local CSV log, live HDMI preview.</p></div></div>
+                    <div class="row"><span class="when">Fest</span><div><h4>Mini EV prototype with BMS</h4><p>Final year — BLDC, BMS, LCD dashboard, EasyEDA PCB. Technical fest finalist.</p></div></div>
                 </div>
                 <div class="panel" id="tab-completed">
-                    <div class="row"><span class="when">v1.0</span><div><h4>3 MHz Function Generator</h4><p>Dual-channel, AD9833 + STM32, Vi Microsystems test bench.</p></div></div>
-                    <div class="row"><span class="when">Certified</span><div><h4>RP2350 AI Environment Board</h4><p>Raspberry Pi Foundation hardware approved.</p></div></div>
-                    <div class="row"><span class="when">v1.0</span><div><h4>Embedded EV Kit</h4><p>CAN, motor loop, battery monitor, LCD dashboard.</p></div></div>
+                    <div class="row"><span class="when">Module</span><div><h4>VEML6030 ambient light sensor</h4><p>Board-level ALS module. I²C, calibrated enough to ship as a part.</p></div></div>
+                    <div class="row"><span class="when">Instrument</span><div><h4>Vibration monitoring + PyQt</h4><p>Hardware plus desktop software. Capture, plot, trend.</p></div></div>
+                    <div class="row"><span class="when">v1.0</span><div><h4>3 MHz function generator</h4><p>Dual-channel, AD9833 + STM32, Vi Microsystems test bench.</p></div></div>
+                    <div class="row"><span class="when">Certified</span><div><h4>RP2350 AI environment board</h4><p>Raspberry Pi Foundation hardware approved.</p></div></div>
+                    <div class="row"><span class="when">v1.0</span><div><h4>Embedded EV kit</h4><p>CAN, motor loop, battery monitor, LCD dashboard.</p></div></div>
                 </div>
             </div>
         </section>
 
         <section id="contact" class="contact">
             <div class="wrap">
-                <p class="kicker reveal">ping me</p>
-                <h2 class="display reveal">If you’re also a nerd, <em>hi.</em></h2>
+                <p class="kicker reveal">contact</p>
+                <h2 class="display reveal">Boards, firmware, or a <em>collaboration.</em></h2>
                 <a class="mail reveal" href="mailto:abin@accessbinary.in">abin@accessbinary.in</a>
                 <form class="form reveal" id="contactForm" novalidate>
                     <div><label for="nameInput">Name</label><input id="nameInput" autocomplete="name" /></div>
                     <div><label for="emailInput">Email</label><input id="emailInput" type="email" autocomplete="email" /></div>
-                    <div><label for="subjectInput">Subject</label><input id="subjectInput" placeholder="board won’t boot / wanna collab / just hi" /></div>
+                    <div><label for="subjectInput">Subject</label><input id="subjectInput" placeholder="SPE / analog / library / hello" /></div>
                     <div><label for="messageInput">Message</label><textarea id="messageInput" rows="4"></textarea></div>
                     <button type="submit" id="submitButton">Send</button>
-                    <p class="ok" id="formSuccess">got it — I’ll reply when the iron cools.</p>
+                    <p class="ok" id="formSuccess">Received. I’ll reply from the bench.</p>
                 </form>
                 <div class="social">
+                    <a href="https://github.com/abinantony01/ViSPE-ADIN1110" target="_blank" rel="noopener">ViSPE ADIN1110</a>
                     <a href="https://github.com/abinantony01/" target="_blank" rel="noopener">GitHub</a>
                     <a href="https://linkedin.com/in/abin-antony-" target="_blank" rel="noopener">LinkedIn</a>
                     <a href="https://www.instagram.com/_ab_in.anto_ny_/" target="_blank" rel="noopener">Instagram</a>
@@ -247,8 +315,8 @@
         </section>
 
         <footer>
-            <span>© 2026 Abin — made between compiles</span>
-            <span>rookie R&amp;D · Vi Microsystems · Chennai</span>
+            <span>© 2026 Abin Antony · accessbinary.in</span>
+            <span>R&amp;D · Vi Microsystems · Chennai</span>
         </footer>
     </div>
 
