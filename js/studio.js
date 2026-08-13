@@ -7,9 +7,20 @@
 
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* Loader already handled in scene. Fallback: */
+    /* Loader */
+    const loader = document.getElementById('loader');
+    const loaderNum = document.getElementById('loader-num');
+    let pct = 0;
+    const boot = setInterval(() => {
+        pct = Math.min(100, pct + 7 + Math.random() * 8);
+        if (loaderNum) loaderNum.textContent = String(Math.floor(pct)).padStart(2, '0');
+        if (pct >= 100) {
+            clearInterval(boot);
+            loader?.classList.add('done');
+        }
+    }, 55);
     window.addEventListener('load', () => {
-        setTimeout(() => document.getElementById('loader')?.classList.add('done'), 400);
+        setTimeout(() => loader?.classList.add('done'), 900);
     });
 
     /* Lenis + GSAP */
@@ -58,7 +69,7 @@
             ring.style.top = ry + 'px';
             requestAnimationFrame(loop);
         })();
-        document.querySelectorAll('a, button, #mark-hit').forEach((el) => {
+        document.querySelectorAll('a, button').forEach((el) => {
             el.addEventListener('mouseenter', () => document.body.classList.add('is-hover'));
             el.addEventListener('mouseleave', () => document.body.classList.remove('is-hover'));
         });
@@ -105,21 +116,4 @@
         form.reset();
     });
 
-    /* Hover sound — tiny click, only after gesture */
-    let ctx;
-    function tick() {
-        try {
-            ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-            const o = ctx.createOscillator();
-            const g = ctx.createGain();
-            o.type = 'sine';
-            o.frequency.value = 420;
-            g.gain.value = 0.03;
-            o.connect(g); g.connect(ctx.destination);
-            o.start();
-            g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.08);
-            o.stop(ctx.currentTime + 0.09);
-        } catch (_) { /* ignore */ }
-    }
-    document.getElementById('mark-hit')?.addEventListener('pointerdown', tick);
 })();
