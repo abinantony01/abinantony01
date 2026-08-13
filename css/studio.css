@@ -67,18 +67,6 @@ button, input, textarea { font-family: inherit; color: inherit; }
     to { transform: translateX(-50%); }
 }
 
-.hero-chip {
-    position: absolute;
-    right: max(3rem, 7vw);
-    top: 26%;
-    width: min(320px, 30vw);
-    height: auto;
-    z-index: 2;
-    pointer-events: none;
-    object-fit: contain;
-    filter: drop-shadow(0 28px 50px rgba(0, 0, 0, 0.55));
-}
-
 .site { position: relative; z-index: 1; }
 
 /* Loader */
@@ -180,8 +168,7 @@ body.is-hover .cur-ring { width: 72px; height: 72px; }
     z-index: 1;
     pointer-events: none;
     background:
-        linear-gradient(180deg, var(--bg) 0%, rgba(18, 16, 14, 0.55) 28%, transparent 52%, rgba(18, 16, 14, 0.45) 78%, var(--bg) 100%),
-        linear-gradient(90deg, var(--bg) 0%, transparent 42%, transparent 100%);
+        linear-gradient(180deg, var(--bg) 0%, rgba(18, 16, 14, 0.72) 36%, rgba(18, 16, 14, 0.2) 58%, rgba(18, 16, 14, 0.55) 82%, var(--bg) 100%);
 }
 .hero-top {
     display: flex;
@@ -193,12 +180,12 @@ body.is-hover .cur-ring { width: 72px; height: 72px; }
     z-index: 3;
 }
 .hero-copy {
-    text-align: left;
+    text-align: center;
     position: relative;
     z-index: 3;
     flex: 1 1 auto;
-    max-width: min(58%, 38rem);
-    padding-top: 7vh;
+    max-width: none;
+    padding-top: 10vh;
 }
 .hero h1 {
     font-family: var(--font-display);
@@ -503,16 +490,8 @@ footer {
     .hero-copy {
         max-width: 100%;
         text-align: center;
-        padding-top: 4vh;
-        flex: 0 0 auto;
-    }
-    .hero-chip {
-        position: relative;
-        right: auto;
-        top: auto;
-        width: min(240px, 58vw);
-        margin: 1rem auto 0;
-        display: block;
+        padding-top: 8vh;
+        flex: 1 1 auto;
     }
     .hero-film {
         height: 28vh;
