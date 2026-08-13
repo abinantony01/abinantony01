@@ -39,19 +39,33 @@ button, input, textarea { font-family: inherit; color: inherit; }
     height: 100%;
     display: block;
     pointer-events: none;
+    opacity: 0;
 }
 
 .hero-stage {
     position: relative;
-    height: min(34vh, 320px);
-    width: min(480px, 70%);
-    margin: 0.2rem 0 0.6rem;
+    height: min(48vh, 460px);
+    width: min(520px, 86%);
+    margin: 0.2rem auto 0.6rem;
     z-index: 1;
     overflow: hidden;
     flex: 1 1 auto;
-    min-height: 180px;
-    align-self: flex-start;
-    background: radial-gradient(ellipse at 50% 48%, rgba(31, 92, 58, 0.18), transparent 64%);
+    min-height: 220px;
+    align-self: center;
+}
+.hero-chip {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.45));
+    transition: filter 0.35s ease, transform 0.35s ease;
+}
+body.is-charging .hero-chip {
+    filter: drop-shadow(0 0 36px rgba(196, 122, 58, 0.5));
 }
 
 .site { position: relative; z-index: 1; }
@@ -154,42 +168,18 @@ body.is-hover .cur-ring { width: 72px; height: 72px; }
     font-size: 0.78rem;
     letter-spacing: 0.08em;
 }
-.hero-visual {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: min(54vw, 760px);
-    z-index: 0;
-    pointer-events: none;
-}
-.hero-visual img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 70% 12%;
-    filter: grayscale(0.28) contrast(1.08) saturate(0.82);
-}
-.hero-visual::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(90deg, var(--bg) 0%, rgba(18, 16, 14, 0.55) 38%, transparent 68%),
-        linear-gradient(180deg, var(--bg) 0%, transparent 18%, transparent 78%, var(--bg) 100%);
-}
 .hero-copy {
-    text-align: left;
+    text-align: center;
     position: relative;
     z-index: 3;
     flex: 0 0 auto;
-    max-width: min(58%, 36rem);
-    padding-top: 3vh;
+    max-width: none;
+    padding-top: 1.2vh;
 }
 .hero h1 {
     font-family: var(--font-display);
     font-weight: 800;
-    margin: 0;
+    margin: 0 auto;
     line-height: 0.98;
 }
 .hero-line {
@@ -493,15 +483,6 @@ footer {
         width: min(560px, 92%);
         margin: 0.4rem auto 0.8rem;
         align-self: center;
-    }
-    .hero-visual {
-        width: 100%;
-        opacity: 0.42;
-    }
-    .hero-visual::after {
-        background:
-            linear-gradient(180deg, var(--bg) 0%, rgba(18,16,14,0.55) 28%, rgba(18,16,14,0.45) 70%, var(--bg) 100%),
-            linear-gradient(90deg, var(--bg) 0%, transparent 40%, transparent 100%);
     }
     .about-grid, .work-item, .pi-block, .practice, .facts { grid-template-columns: 1fr; }
     .row { grid-template-columns: 1fr; }
