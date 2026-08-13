@@ -33,13 +33,13 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     camera.position.set(0, 0.15, 8.2);
 
     scene.add(new THREE.AmbientLight(0x2a2622, 0.55));
-    const key = new THREE.DirectionalLight(0xf4efe6, 2.1);
+    const key = new THREE.DirectionalLight(0xffe6c4, 1.85);
     key.position.set(3.2, 4.4, 5);
     scene.add(key);
     const fill = new THREE.DirectionalLight(0x8a9aaa, 0.55);
     fill.position.set(-4, 1.2, 2);
     scene.add(fill);
-    const rim = new THREE.PointLight(0xc9b89a, 6, 14, 2);
+    const rim = new THREE.PointLight(0xc47a3a, 8, 14, 2);
     rim.position.set(0, -1.4, 3);
     scene.add(rim);
 
@@ -55,11 +55,11 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
         '1000001',
         '1000001',
     ];
-    const geo = new THREE.BoxGeometry(0.34, 0.08, 0.34);
+    const geo = new THREE.BoxGeometry(0.34, 0.07, 0.34);
     const mats = [
-        new THREE.MeshStandardMaterial({ color: 0xf4efe6, metalness: 0.72, roughness: 0.28 }),
-        new THREE.MeshStandardMaterial({ color: 0xd8d0c4, metalness: 0.82, roughness: 0.22 }),
-        new THREE.MeshStandardMaterial({ color: 0xb7aea2, metalness: 0.6, roughness: 0.38 }),
+        new THREE.MeshStandardMaterial({ color: 0x1a6b3c, metalness: 0.25, roughness: 0.55, emissive: 0x062214, emissiveIntensity: 0.25 }),
+        new THREE.MeshStandardMaterial({ color: 0xb87333, metalness: 0.85, roughness: 0.28 }),
+        new THREE.MeshStandardMaterial({ color: 0xe8e0d0, metalness: 0.15, roughness: 0.5 }),
     ];
     const panels = [];
     A.forEach((row, r) => {
@@ -82,7 +82,7 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
 
     const sparks = [];
     const sGeo = new THREE.SphereGeometry(0.018, 6, 6);
-    const sMat = new THREE.MeshBasicMaterial({ color: 0xf4efe6 });
+    const sMat = new THREE.MeshBasicMaterial({ color: 0xffc14d });
     for (let i = 0; i < (mobile ? 18 : 40); i++) {
         const s = new THREE.Mesh(sGeo, sMat);
         s.visible = false;
