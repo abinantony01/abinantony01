@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- ===== PRIMARY SEO ===== -->
-    <title>Hacked by antony | Abin Antony — R&D Engineer · Hardware, Embedded &amp; AI</title>
+    <title>Access Binary | Abin Antony — 3D Lab · R&amp;D Engineer · Hardware, Embedded &amp; AI</title>
     <meta name="description" content="Access Binary is Abin Antony's engineering portfolio. R&D Engineer at Vi Microsystems Pvt Ltd, Chennai — specialising in PCB design, Embedded Systems (STM32, RP2350), Android (Kotlin), ROS Robotics, TinyML and Vision AI. Raspberry Pi approved hardware." />
     <meta name="keywords" content="Access Binary, Abin Antony, R&D Engineer, Vi Microsystems, Chennai, PCB Design, Embedded Systems, STM32, RP2350, Raspberry Pi Approved, TinyML, ROS, Robotics, Android Kotlin, Hardware Designer, EasyEDA, KiCad, Vision AI, OpenCV" />
     <meta name="author" content="Abin Antony" />
@@ -91,6 +91,7 @@
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
@@ -104,10 +105,61 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" />
 
     <!-- Custom CSS -->
-    <link href="css/custom.css" rel="stylesheet" />
+    <link href="./css/custom.css" rel="stylesheet" />
+    <link href="./css/scene3d.css" rel="stylesheet" />
+
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+    </script>
 </head>
 
 <body id="page-top">
+
+    <!-- ====== 3D BOOT ====== -->
+    <div id="boot-loader" role="status" aria-label="Loading 3D lab">
+        <div class="boot-inner">
+            <div class="boot-logo">A<span>BIN</span></div>
+            <div class="boot-term">
+                <div id="boot-log"></div>
+            </div>
+            <div class="boot-bar"><div id="boot-fill"></div></div>
+            <button id="skip3d" type="button">Skip intro</button>
+        </div>
+    </div>
+
+    <canvas id="webgl-world" aria-hidden="true"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+    <div id="scroll-progress" aria-hidden="true"></div>
+    <div class="film-grain" aria-hidden="true"></div>
+
+    <aside id="chip-inspect" class="chip-inspect" aria-live="polite">
+        <button type="button" id="inspect-close" aria-label="Close chip details">✕</button>
+        <div class="inspect-kicker">SILICON  ·  LIVE</div>
+        <h3 id="inspect-title">Chip</h3>
+        <p id="inspect-meta" class="inspect-meta"></p>
+        <p id="inspect-body"></p>
+    </aside>
+
+    <div class="lab-hud" aria-hidden="true">
+        LAB · ACCESS BINARY<br />
+        CAM <span id="hud-cam">0 0 0</span><br />
+        SCROLL <span id="hud-scroll">0%</span><br />
+        FPS <span id="hud-fps">--</span>
+    </div>
+    <div class="lab-dock">
+        <button type="button" id="qualityToggle">Quality · High</button>
+        <button type="button" id="motionToggle">Motion · On</button>
+        <button type="button" id="inspectToggle">Inspect · Off</button>
+        <button type="button" id="soundToggle">Sound · Off</button>
+        <button type="button" id="exploreLab">Fly to PCB</button>
+    </div>
+    <div class="kbd-hint"><kbd>I</kbd> inspect · <kbd>1</kbd>–<kbd>7</kbd> warp · drag in inspect</div>
 
     <!-- ====== NAVIGATION ====== -->
     <nav id="mainNav" class="navbar">
@@ -173,15 +225,24 @@
 
             <div class="hero-actions reveal-up">
                 <a href="#circuits" class="btn-primary-glow"><i class="fas fa-draw-polygon"></i> View Hardware</a>
+                <button type="button" class="btn-ghost" id="heroInspect"><i class="fas fa-cube"></i> Inspect PCB</button>
                 <a href="#contact" class="btn-ghost"><i class="fas fa-envelope"></i> Get In Touch</a>
             </div>
 
             <div class="hero-scroll-indicator">
                 <div class="scroll-dot"></div>
-                <span>scroll to explore</span>
+                <span>scroll the 3D lab</span>
             </div>
         </div>
     </header>
+
+    <div class="lab-strip">
+        <span>WebGL <b>live</b></span>
+        <span>Current <b>on traces</b></span>
+        <span>DDS <b>oscilloscope</b></span>
+        <span>Click chips to inspect</span>
+        <span>Press <b>I</b> to orbit</span>
+    </div>
 
     <!-- ====== ABOUT ====== -->
     <section class="about-section" id="about">
@@ -221,7 +282,7 @@
                     </div>
                 </div>
                 <div class="about-right reveal-right">
-                    <div class="about-card glass-card">
+                    <div class="about-card glass-card tilt-3d">
                         <div class="about-avatar-area">
                             <div class="avatar-ring">
                                 <div class="avatar-inner">
@@ -273,7 +334,7 @@
 
             <div class="skills-grid">
                 <!-- Hardware & PCB -->
-                <div class="skill-card glass-card reveal-up">
+                <div class="skill-card glass-card reveal-up tilt-3d">
                     <div class="skill-card-header">
                         <div class="skill-icon icon-cyan"><i class="fas fa-draw-polygon"></i></div>
                         <h3 class="skill-title">Hardware &amp; PCB Design</h3>
@@ -313,7 +374,7 @@
                 </div>
 
                 <!-- Embedded Systems -->
-                <div class="skill-card glass-card reveal-up">
+                <div class="skill-card glass-card reveal-up tilt-3d">
                     <div class="skill-card-header">
                         <div class="skill-icon icon-green"><i class="fas fa-microchip"></i></div>
                         <h3 class="skill-title">Embedded Systems</h3>
@@ -353,7 +414,7 @@
                 </div>
 
                 <!-- Android, ROS & Robotics -->
-                <div class="skill-card glass-card reveal-up">
+                <div class="skill-card glass-card reveal-up tilt-3d">
                     <div class="skill-card-header">
                         <div class="skill-icon icon-yellow"><i class="fas fa-robot"></i></div>
                         <h3 class="skill-title">Android, ROS &amp; Robotics</h3>
@@ -395,7 +456,7 @@
                 </div>
 
                 <!-- AI/ML, Vision & Languages -->
-                <div class="skill-card glass-card reveal-up">
+                <div class="skill-card glass-card reveal-up tilt-3d">
                     <div class="skill-card-header">
                         <div class="skill-icon icon-pink"><i class="fas fa-brain"></i></div>
                         <h3 class="skill-title">AI / Vision &amp; Languages</h3>
@@ -436,8 +497,12 @@
             <p class="section-body reveal-up">Real boards designed and built — mostly 2-layer PCBs for embedded
                 applications, prototyped and tested in-house at Vi Microsystems.</p>
 
+            <div class="orbit-stage reveal-up">
+                <div class="orbit-ring" id="orbitRing"></div>
+            </div>
+
             <div class="circuits-grid">
-                <div class="circuit-card glass-card reveal-up">
+                <div class="circuit-card glass-card reveal-up tilt-3d" data-chip="ad9833">
                     <div class="circuit-card-top">
                         <img src="assets/img/fg.jpg" alt="3 MHz Function Generator" />
                         <div class="circuit-overlay">
@@ -459,7 +524,7 @@
                     </div>
                 </div>
 
-                <div class="circuit-card glass-card reveal-up">
+                <div class="circuit-card glass-card reveal-up tilt-3d" data-chip="stm32">
                     <div class="circuit-card-top">
                         <img src="assets/img/evdashboard.jpeg" alt="Embedded EV Kit" />
                         <div class="circuit-overlay">
@@ -480,7 +545,7 @@
                     </div>
                 </div>
 
-                <div class="circuit-card glass-card reveal-up">
+                <div class="circuit-card glass-card reveal-up tilt-3d" data-chip="rp2350">
                     <div class="circuit-card-top">
                         <img src="assets/img/rp2350.png" alt="RP2350 AI Env Board" />
                         <div class="circuit-overlay">
@@ -534,7 +599,7 @@
 
             <!-- Single approved product — centred, highlighted -->
             <div class="rpi-single-wrap">
-                <div class="rpi-product-card rpi-product-featured glass-card reveal-up">
+                <div class="rpi-product-card rpi-product-featured glass-card reveal-up tilt-3d" data-chip="rp2350">
                     <div class="rpi-product-badge">✓ Officially Approved</div>
                     <div class="rpi-product-icon"><i class="fab fa-raspberry-pi"></i></div>
                     <h4 class="rpi-product-name">RP2350 Indoor AI Environment Board</h4>
@@ -575,7 +640,7 @@
                 at the edge — from microcontrollers to Android apps, bridging hardware and intelligence.</p>
 
             <div class="ai-projects-grid">
-                <div class="ai-project-card glass-card reveal-left">
+                <div class="ai-project-card glass-card reveal-left tilt-3d" data-chip="opencv">
                     <div class="ai-project-header">
                         <div class="ai-icon" style="background:rgba(0,255,136,0.12);color:#00ff88;"><i
                                 class="fas fa-eye"></i></div>
@@ -597,7 +662,7 @@
                     </div>
                 </div>
 
-                <div class="ai-project-card glass-card reveal-up">
+                <div class="ai-project-card glass-card reveal-up tilt-3d" data-chip="tinyml">
                     <div class="ai-project-header">
                         <div class="ai-icon" style="background:rgba(0,212,255,0.12);color:#00d4ff;"><i
                                 class="fas fa-thermometer-half"></i></div>
@@ -620,7 +685,7 @@
                     </div>
                 </div>
 
-                <div class="ai-project-card glass-card reveal-right">
+                <div class="ai-project-card glass-card reveal-right tilt-3d" data-chip="kotlin">
                     <div class="ai-project-header">
                         <div class="ai-icon" style="background:rgba(124,58,237,0.12);color:#a78bfa;"><i
                                 class="fab fa-android"></i></div>
@@ -643,7 +708,7 @@
                     </div>
                 </div>
 
-                <div class="ai-project-card glass-card reveal-left">
+                <div class="ai-project-card glass-card reveal-left tilt-3d" data-chip="ros2">
                     <div class="ai-project-header">
                         <div class="ai-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b;"><i
                                 class="fas fa-robot"></i></div>
@@ -683,7 +748,7 @@
             <!-- Ongoing Works -->
             <div class="tab-panel active" id="tab-ongoing">
                 <div class="project-list">
-                    <div class="project-row glass-card reveal-up">
+                    <div class="project-row glass-card reveal-up tilt-3d">
                         <div class="project-row-icon" style="background:rgba(0,212,255,0.12);color:#00d4ff;"><i
                                 class="fas fa-wave-square"></i></div>
                         <div class="project-row-content">
@@ -699,7 +764,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="project-row glass-card reveal-up">
+                    <div class="project-row glass-card reveal-up tilt-3d">
                         <div class="project-row-icon" style="background:rgba(0,255,136,0.12);color:#00ff88;"><i
                                 class="fas fa-thermometer-half"></i></div>
                         <div class="project-row-content">
@@ -714,7 +779,7 @@
                                     2026</span><span><i class="fas fa-microchip"></i> STM32N6 · NPU</span></div>
                         </div>
                     </div>
-                    <div class="project-row glass-card reveal-up">
+                    <div class="project-row glass-card reveal-up tilt-3d">
                         <div class="project-row-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b;"><i
                                 class="fas fa-robot"></i></div>
                         <div class="project-row-content">
@@ -735,7 +800,7 @@
             <!-- College Projects -->
             <div class="tab-panel" id="tab-college">
                 <div class="project-list">
-                    <div class="project-row glass-card reveal-up">
+                    <div class="project-row glass-card reveal-up tilt-3d">
                         <div class="project-row-icon" style="background:rgba(139,92,246,0.12);color:#a78bfa;"><i
                                 class="fas fa-graduation-cap"></i></div>
                         <div class="project-row-content">
@@ -751,7 +816,7 @@
                                     BLE</span><span><i class="fas fa-trophy"></i> Best Project Award</span></div>
                         </div>
                     </div>
-                    <div class="project-row glass-card reveal-up">
+                    <div class="project-row glass-card reveal-up tilt-3d">
                         <div class="project-row-icon" style="background:rgba(6,182,212,0.12);color:#06b6d4;"><i
                                 class="fas fa-eye"></i></div>
                         <div class="project-row-content">
@@ -767,7 +832,7 @@
                                     OpenCV</span><span><i class="fas fa-users"></i> College Demo</span></div>
                         </div>
                     </div>
-                    <div class="project-row glass-card reveal-up">
+                    <div class="project-row glass-card reveal-up tilt-3d">
                         <div class="project-row-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b;"><i
                                 class="fas fa-car-battery"></i></div>
                         <div class="project-row-content">
@@ -789,7 +854,7 @@
             <!-- Completed -->
             <div class="tab-panel" id="tab-completed">
                 <div class="project-list">
-                    <div class="project-row glass-card reveal-up">
+                    <div class="project-row glass-card reveal-up tilt-3d">
                         <div class="project-row-icon" style="background:rgba(0,255,136,0.12);color:#00ff88;"><i
                                 class="fas fa-wave-square"></i></div>
                         <div class="project-row-content">
@@ -804,7 +869,7 @@
                                     EasyEDA</span><span><i class="fas fa-building"></i> Vi Microsystems</span></div>
                         </div>
                     </div>
-                    <div class="project-row glass-card reveal-up">
+                    <div class="project-row glass-card reveal-up tilt-3d">
                         <div class="project-row-icon" style="background:rgba(197,26,74,0.12);color:#ff6b9d;"><i
                                 class="fab fa-raspberry-pi"></i></div>
                         <div class="project-row-content">
@@ -820,7 +885,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="project-row glass-card reveal-up">
+                    <div class="project-row glass-card reveal-up tilt-3d">
                         <div class="project-row-icon" style="background:rgba(6,182,212,0.12);color:#06b6d4;"><i
                                 class="fas fa-car"></i></div>
                         <div class="project-row-content">
@@ -850,14 +915,14 @@
 
             <div class="contact-layout">
                 <div class="contact-info">
-                    <div class="contact-card glass-card reveal-left">
+                    <div class="contact-card glass-card reveal-left tilt-3d">
                         <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <div>
                             <h4>Location</h4>
                             <p>Idukki, Kerala 🇮🇳</p>
                         </div>
                     </div>
-                    <div class="contact-card glass-card reveal-left">
+                    <div class="contact-card glass-card reveal-left tilt-3d">
                         <div class="contact-icon"><i class="fas fa-building"></i></div>
                         <div>
                             <h4>Company</h4>
@@ -866,14 +931,14 @@
                             </p>
                         </div>
                     </div>
-                    <div class="contact-card glass-card reveal-left">
+                    <div class="contact-card glass-card reveal-left tilt-3d">
                         <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                         <div>
                             <h4>Email</h4>
                             <p><a href="mailto:abinantony.dev@gmail.com">abinantony.dev@gmail.com</a></p>
                         </div>
                     </div>
-                    <div class="contact-card glass-card reveal-left">
+                    <div class="contact-card glass-card reveal-left tilt-3d">
                         <div class="contact-icon"><i class="fab fa-raspberry-pi"></i></div>
                         <div>
                             <h4>Pi Approved Product</h4>
@@ -892,7 +957,7 @@
                     </div>
                 </div>
 
-                <div class="contact-form-wrap glass-card reveal-right">
+                <div class="contact-form-wrap glass-card reveal-right tilt-3d">
                     <h3 class="form-title">Send a Message</h3>
                     <p class="form-sub">$ echo "Your message" | mail -s "Subject" abin</p>
                     <form class="contact-form" id="contactForm" novalidate>
@@ -951,7 +1016,8 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <script src="js/scripts.js"></script>
+    <script src="./js/scripts.js"></script>
+    <script type="module" src="./js/scene3d.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,527 @@
+/* =============================================
+   ACCESS BINARY — 3D Lab overlay, HUD, cursor
+   ============================================= */
+
+#webgl-world {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+body.loading { opacity: 1 !important; }
+
+.vignette,
+.scanlines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.vignette {
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(5, 8, 16, 0.72) 100%);
+}
+
+.scanlines {
+    opacity: 0.07;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 255, 136, 0.35) 3px
+    );
+    mix-blend-mode: overlay;
+}
+
+.film-grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+}
+
+#scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 100%;
+    z-index: 1100;
+    background: linear-gradient(90deg, #00ff88, #00d4ff, #7c3aed);
+    transform: scaleX(0);
+    transform-origin: left center;
+    pointer-events: none;
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.6);
+}
+
+body.lab-live .hero-video-wrap {
+    opacity: 0.18;
+}
+
+body.lab-live #particles-canvas {
+    opacity: 0.25;
+}
+
+body.lab-live .about-section,
+body.lab-live .skills-section,
+body.lab-live .circuits-section,
+body.lab-live .rpi-section,
+body.lab-live .ai-section,
+body.lab-live .projects-section,
+body.lab-live .contact-section,
+body.lab-live .site-footer {
+    background: rgba(5, 8, 16, 0.62);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+body.lab-live .hero-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(5, 8, 16, 0.35) 0%,
+        rgba(5, 8, 16, 0.28) 40%,
+        rgba(5, 8, 16, 0.55) 75%,
+        rgba(5, 8, 16, 0.88) 100%
+    );
+}
+
+body.lab-live .hero-content-backdrop {
+    background: radial-gradient(ellipse 70% 60% at 50% 48%, rgba(5, 8, 16, 0.38) 0%, transparent 100%);
+}
+
+/* Content sits above WebGL */
+.hero,
+.about-section,
+.skills-section,
+.circuits-section,
+.rpi-section,
+.ai-section,
+.projects-section,
+.contact-section,
+.site-footer {
+    position: relative;
+    z-index: 3;
+}
+
+#mainNav { z-index: 1000; }
+.scroll-top-btn { z-index: 999; }
+.lab-hud, .lab-dock { z-index: 40; }
+
+/* 3D card space */
+.tilt-3d {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.12s ease-out, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.tilt-3d:hover {
+    box-shadow:
+        0 18px 50px rgba(0, 0, 0, 0.45),
+        0 0 28px rgba(0, 255, 136, 0.12);
+}
+
+.hero-content {
+    transform: translateZ(40px);
+}
+
+/* =============================================
+   BOOT LOADER
+   ============================================= */
+#boot-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #03050a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.55s ease, visibility 0.55s ease;
+}
+
+#boot-loader.boot-done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.boot-inner {
+    width: min(520px, 90vw);
+    font-family: var(--font-mono);
+}
+
+.boot-logo {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--circuit-green);
+    text-shadow: 0 0 24px rgba(0, 255, 136, 0.55);
+    margin-bottom: 1.25rem;
+}
+
+.boot-logo span { color: var(--electric-cyan); }
+
+.boot-term {
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(0, 255, 136, 0.28);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    min-height: 168px;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 40px rgba(0, 255, 136, 0.08);
+}
+
+#boot-log {
+    font-size: 0.72rem;
+    color: var(--electric-cyan);
+    line-height: 1.7;
+    max-height: 140px;
+    overflow: hidden;
+}
+
+.boot-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+#boot-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00ff88, #00d4ff);
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.6);
+    transition: width 0.2s ease;
+}
+
+#skip3d {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+#skip3d:hover { color: var(--circuit-green); border-color: var(--circuit-green); }
+
+/* =============================================
+   HUD + DOCK
+   ============================================= */
+.lab-hud {
+    position: fixed;
+    top: auto;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    z-index: 40;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--circuit-green);
+    letter-spacing: 0.08em;
+    background: rgba(5, 8, 16, 0.72);
+    border: 1px solid rgba(0, 255, 136, 0.22);
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    line-height: 1.65;
+    pointer-events: none;
+    min-width: 168px;
+}
+
+.lab-hud span { color: var(--electric-cyan); }
+
+.lab-dock {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 5.2rem;
+    z-index: 40;
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 420px;
+}
+
+.lab-dock button {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 255, 136, 0.28);
+    background: rgba(5, 8, 16, 0.78);
+    color: var(--text-muted);
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: var(--t-fast);
+}
+
+.lab-dock button:hover {
+    color: var(--circuit-green);
+    border-color: var(--circuit-green);
+}
+
+#lab-tooltip {
+    position: fixed;
+    z-index: 50;
+    pointer-events: none;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: #04080e;
+    background: var(--circuit-green);
+    padding: 0.28rem 0.55rem;
+    border-radius: 4px;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    font-weight: 700;
+}
+
+#lab-tooltip.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (pointer: coarse) {
+    .lab-hud { display: none; }
+}
+
+/* =============================================
+   HERO 3D FLAIR
+   ============================================= */
+.hero-title .hero-role {
+    filter: drop-shadow(0 0 22px rgba(0, 212, 255, 0.35));
+    animation: hero-glitch 7s ease-in-out infinite;
+}
+
+@keyframes hero-glitch {
+    0%, 88%, 100% { text-shadow: none; transform: none; }
+    90% { text-shadow: -2px 0 #00ff88, 2px 0 #c51a4a; transform: translate(1px, 0); }
+    92% { text-shadow: 2px 0 #00d4ff, -2px 0 #7c3aed; transform: translate(-1px, 0); }
+    94% { text-shadow: none; transform: none; }
+}
+
+.chip-inspect {
+    position: fixed;
+    top: 50%;
+    left: 1.25rem;
+    transform: translateY(-50%) translateX(-20px);
+    width: min(320px, calc(100vw - 2rem));
+    z-index: 45;
+    background: rgba(5, 8, 16, 0.88);
+    border: 1px solid rgba(0, 255, 136, 0.35);
+    border-radius: 14px;
+    padding: 1.25rem 1.3rem 1.35rem;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), 0 0 40px rgba(0, 255, 136, 0.08);
+    transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.chip-inspect.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(-50%) translateX(0);
+}
+
+.inspect-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    color: var(--circuit-green);
+    margin-bottom: 0.45rem;
+}
+
+.chip-inspect h3 {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    margin-bottom: 0.35rem;
+}
+
+.inspect-meta {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--electric-cyan);
+    margin-bottom: 0.7rem;
+}
+
+.chip-inspect p:last-of-type {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+}
+
+#inspect-close {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.75rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+#inspect-close:hover { color: var(--circuit-green); border-color: var(--circuit-green); }
+
+body.lab-inspect .hero-content,
+body.lab-inspect .lab-strip,
+body.lab-inspect .about-section,
+body.lab-inspect .skills-section,
+body.lab-inspect .circuits-section,
+body.lab-inspect .rpi-section,
+body.lab-inspect .ai-section,
+body.lab-inspect .projects-section,
+body.lab-inspect .contact-section,
+body.lab-inspect .site-footer {
+    opacity: 0.08;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+body.lab-inspect #webgl-world {
+    pointer-events: auto;
+}
+
+body.lab-inspect .hero {
+    min-height: 100vh;
+}
+
+.chip {
+    transform: translateZ(20px);
+}
+
+/* Telemetry strip under hero */
+.lab-strip {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 0.85rem 1.5rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, transparent, rgba(5, 8, 16, 0.5));
+}
+
+.lab-strip b {
+    color: var(--circuit-green);
+    font-weight: 600;
+}
+
+/* 3D orbit marquee of tech */
+.orbit-stage {
+    perspective: 900px;
+    height: 90px;
+    margin: 2rem 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.orbit-ring {
+    position: relative;
+    width: min(640px, 90vw);
+    height: 80px;
+    transform-style: preserve-3d;
+    animation: orbit-spin 28s linear infinite;
+}
+
+@keyframes orbit-spin {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+.orbit-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 0.4rem 0.85rem;
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--electric-cyan);
+    white-space: nowrap;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+/* Magnetic press */
+.btn-primary-glow,
+.btn-ghost,
+.chip {
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+/* Keyboard hint */
+.kbd-hint {
+    position: fixed;
+    top: 5.4rem;
+    right: 1.25rem;
+    z-index: 40;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    pointer-events: none;
+}
+
+.kbd-hint kbd {
+    display: inline-block;
+    padding: 0.12rem 0.35rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--circuit-green);
+    margin: 0 0.15rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .orbit-ring { animation: none; }
+    .scanlines, .film-grain { display: none; }
+    .hero-title .hero-role { animation: none; }
+    .reveal-up, .reveal-left, .reveal-right {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .lab-dock {
+        right: 1rem;
+        bottom: 4.5rem;
+        max-width: calc(100vw - 2rem);
+    }
+    .lab-hud { display: none; }
+    .kbd-hint { display: none; }
+    .scanlines, .film-grain { display: none; }
+    .chip-inspect {
+        top: auto;
+        bottom: 5.5rem;
+        left: 1rem;
+        transform: translateY(12px);
+    }
+    .chip-inspect.open { transform: translateY(0); }
+    body.lab-inspect .hero-content { opacity: 0; }
+}

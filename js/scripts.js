@@ -15,6 +15,18 @@
         document.body.classList.add('loaded');
     });
 
+    setTimeout(() => {
+        const boot = document.getElementById('boot-loader');
+        if (boot && !boot.classList.contains('boot-done')) {
+            boot.classList.add('boot-done');
+            document.body.classList.add('lab-live');
+        }
+        const heroVid = document.querySelector('.hero-video');
+        if (heroVid && document.body.classList.contains('lab-live')) {
+            heroVid.pause();
+        }
+    }, 4800);
+
     /* ============================================================
        2. NAVBAR — scroll class + scroll-to-top
     ============================================================ */
@@ -262,7 +274,130 @@
     }
 
     /* ============================================================
-       11. PARTICLE CANVAS — circuit-dot network in hero
+       11. 3D LAB UI — cursor, tilt, magnets, HUD, keys
+    ============================================================ */
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const orbitRing = document.getElementById('orbitRing');
+    if (orbitRing) {
+        const orbitItems = ['STM32', 'RP2350', 'AD9833', 'ESP32', 'TinyML', 'ROS2', 'OpenCV', 'Kotlin', 'KiCad', 'CAN'];
+        const radius = Math.min(240, window.innerWidth * 0.32);
+        orbitItems.forEach((name, i) => {
+            const el = document.createElement('span');
+            el.className = 'orbit-item';
+            el.textContent = name;
+            const angle = (i / orbitItems.length) * 360;
+            el.style.transform = `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${radius}px)`;
+            orbitRing.appendChild(el);
+        });
+    }
+
+    if (!reducedMotion) {
+        document.querySelectorAll('.tilt-3d').forEach((card) => {
+            card.addEventListener('mousemove', (e) => {
+                const r = card.getBoundingClientRect();
+                const px = (e.clientX - r.left) / r.width;
+                const py = (e.clientY - r.top) / r.height;
+                const rx = (0.5 - py) * 11;
+                const ry = (px - 0.5) * 14;
+                card.style.transform = `perspective(980px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(10px)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+
+        document.querySelectorAll('.btn-primary-glow, .btn-ghost').forEach((btn) => {
+            btn.addEventListener('mousemove', (e) => {
+                const r = btn.getBoundingClientRect();
+                const dx = e.clientX - r.left - r.width / 2;
+                const dy = e.clientY - r.top - r.height / 2;
+                btn.style.transform = `translate(${dx * 0.22}px, ${dy * 0.22}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = '';
+            });
+        });
+    }
+
+    document.querySelectorAll('[data-chip]').forEach((el) => {
+        el.addEventListener('mouseenter', () => {
+            if (window.AB3D) window.AB3D.highlight(el.getAttribute('data-chip'));
+        });
+        el.addEventListener('mouseleave', () => {
+            if (window.AB3D) window.AB3D.highlight(null);
+        });
+    });
+
+    const qualityBtn = document.getElementById('qualityToggle');
+    const motionBtn = document.getElementById('motionToggle');
+    const exploreBtn = document.getElementById('exploreLab');
+
+    if (window.innerWidth < 768 && qualityBtn) qualityBtn.textContent = 'Quality · Low';
+    if (reducedMotion && motionBtn) motionBtn.textContent = 'Motion · Off';
+
+    if (qualityBtn) {
+        qualityBtn.addEventListener('click', () => {
+            if (!window.AB3D) return;
+            const next = window.AB3D.state.quality === 'high' ? 'low' : 'high';
+            window.AB3D.setQuality(next);
+        });
+    }
+    if (motionBtn) {
+        motionBtn.addEventListener('click', () => {
+            if (window.AB3D) window.AB3D.togglePause();
+        });
+    }
+    if (exploreBtn) {
+        exploreBtn.addEventListener('click', () => {
+            document.getElementById('circuits')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
+
+    const inspectBtn = document.getElementById('inspectToggle');
+    const soundBtn = document.getElementById('soundToggle');
+    const heroInspect = document.getElementById('heroInspect');
+    if (inspectBtn) inspectBtn.addEventListener('click', () => window.AB3D?.toggleInspect());
+    if (soundBtn) soundBtn.addEventListener('click', () => window.AB3D?.toggleSound());
+    if (heroInspect) {
+        heroInspect.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => window.AB3D?.toggleInspect(), 200);
+        });
+    }
+
+    const sectionKeys = ['about', 'skills', 'circuits', 'raspberrypi', 'ai', 'projects', 'contact'];
+    window.addEventListener('keydown', (e) => {
+        if (e.target.matches && e.target.matches('input, textarea')) return;
+        const n = parseInt(e.key, 10);
+        if (n >= 1 && n <= 7) {
+            document.getElementById(sectionKeys[n - 1])?.scrollIntoView({ behavior: 'smooth' });
+        }
+        if (e.key === 'q' || e.key === 'Q') {
+            if (window.AB3D) {
+                window.AB3D.setQuality(window.AB3D.state.quality === 'high' ? 'low' : 'high');
+            }
+        }
+        if (e.key === 'm' || e.key === 'M') {
+            if (window.AB3D) window.AB3D.togglePause();
+        }
+        if (e.key === 'g' || e.key === 'G') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        if (e.key === 'i' || e.key === 'I') {
+            if (window.AB3D) window.AB3D.toggleInspect();
+        }
+        if (e.key === 's' || e.key === 'S') {
+            if (window.AB3D) window.AB3D.toggleSound();
+        }
+        if (e.key === 'Escape') {
+            if (window.AB3D?.state?.inspect) window.AB3D.toggleInspect();
+            window.AB3D?.closeChipPanel?.();
+        }
+    });
+
+    /* ============================================================
+       12. PARTICLE CANVAS — circuit-dot network in hero
     ============================================================ */
     const canvas = document.getElementById('particles-canvas');
     if (!canvas) return;
